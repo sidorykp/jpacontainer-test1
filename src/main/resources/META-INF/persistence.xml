@@ -5,19 +5,16 @@
 	version="2.0">
 
 	<persistence-unit name="com.sidorykp.sandbox.vaadin.jpacontainer">
-		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
-			<property name="eclipselink.jdbc.platform"
-				value="org.eclipse.persistence.platform.database.H2Platform" />
-			<property name="eclipselink.jdbc.driver" value="org.h2.Driver" />
-			<property name="eclipselink.jdbc.url" value="jdbc:h2:˜/jpacontaienerexampledb" />
-			<property name="eclipselink.jdbc.user" value="sa" />
-			<property name="eclipselink.jdbc.password" value="sa" />
-			<property name="eclipselink.logging.level" value="FINE" />
-			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
-			<property name="eclipselink.ddl-generation.output-mode"
-				value="database" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value="sa"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:˜/jpacontaienerexampledb"/>
 		</properties>
 	</persistence-unit>
 

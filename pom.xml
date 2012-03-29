@@ -14,6 +14,8 @@
 		<jpacontainer.version>2.0.0</jpacontainer.version>
 		<gwt.version>2.3.0</gwt.version>
 		<gwt.plugin.version>2.3.0-1</gwt.plugin.version>
+        <!-- PS we use hibernate instead of eclipselink-->
+        <hibernate.version>4.1.1.Final</hibernate.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -83,6 +85,12 @@
 			<version>${gwt.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
 	</dependencies>
 
 	<build>
