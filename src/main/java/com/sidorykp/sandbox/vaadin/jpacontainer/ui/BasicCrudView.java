@@ -2,9 +2,11 @@ package com.sidorykp.sandbox.vaadin.jpacontainer.ui;
 
 import java.util.Arrays;
 
+import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
+import com.vaadin.addon.jpacontainer.provider.MutableLocalEntityProvider;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -22,6 +24,8 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.themes.Reindeer;
+
+import javax.persistence.EntityManager;
 
 /**
  * This is a rudimentary general purpose CRUD view to list and edit JPA entities
@@ -145,7 +149,11 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
 	}
 
 	protected void initContainer() {
-		container = JPAContainerFactory.make(getEntityClass(), persistenceUnit);
+        EntityManager em = JPAContainerFactory.createEntityManagerForPersistenceUnit(persistenceUnit);
+        EntityProvider<T> ep = new MutableLocalEntityProvider<T>(entityClass, em);
+        ep.setEntitiesDetached(false);
+        container = new JPAContainer<T>(entityClass);
+        container.setEntityProvider(ep);
 		table = new Table(null, container);
 	}
 
