@@ -2,6 +2,9 @@ package com.sidorykp.sandbox.vaadin.jpacontainer.ui;
 
 import java.util.Arrays;
 
+import com.sidorykp.sandbox.vaadin.jpacontainer.util.ApplicationContextProvider;
+import com.sidorykp.sandbox.vaadin.jpacontainer.util.PersonEntityProvider;
+import com.sidorykp.sandbox.vaadin.jpacontainer.util.TransactionalEntityProvider;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
@@ -24,8 +27,15 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.themes.Reindeer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 /**
  * This is a rudimentary general purpose CRUD view to list and edit JPA entities
@@ -33,8 +43,13 @@ import javax.persistence.EntityManager;
  * into a buffered form below it. Form uses {@link FieldFactory} to support most
  * common relation types.
  */
+@Component
+@Scope("prototype")
 public class BasicCrudView<T> extends AbsoluteLayout implements
 		Property.ValueChangeListener, Handler, ClickListener {
+
+    @Autowired
+    protected EntityProvider<T> ep;
 
 	private JPAContainer<T> container;
 	private Table table;
@@ -47,11 +62,13 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
 	private Button addButton;
 	private Button deleteButton;
 	private Panel panel;
-	private final String persistenceUnit;
 
-	public BasicCrudView(Class<T> entityClass, final String persistenceUnit) {
+	public BasicCrudView() {
+
+    }
+
+    public void SetUp(Class<T> entityClass) {
 		this.entityClass = entityClass;
-		this.persistenceUnit = persistenceUnit;
 		setSizeFull();
 		initContainer();
 		initFieldFactory();
@@ -149,11 +166,10 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
 	}
 
 	protected void initContainer() {
-        EntityManager em = JPAContainerFactory.createEntityManagerForPersistenceUnit(persistenceUnit);
-        EntityProvider<T> ep = new MutableLocalEntityProvider<T>(entityClass, em);
-        ep.setEntitiesDetached(false);
         container = new JPAContainer<T>(entityClass);
         container.setEntityProvider(ep);
+        //container.setContainsIdFiresItemSetChangeIfNotFound(true);
+        //container.removeContainerProperty("version");
 		table = new Table(null, container);
 	}
 
