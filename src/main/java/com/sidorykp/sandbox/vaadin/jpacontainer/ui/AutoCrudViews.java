@@ -1,6 +1,7 @@
 package com.sidorykp.sandbox.vaadin.jpacontainer.ui;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person;
+import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.data.Property;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Tree;
@@ -32,7 +33,7 @@ public class AutoCrudViews extends Window {
     protected EntityManager em;
 
     @Autowired
-    protected BasicCrudView view;
+    protected EntityProvider<?> ep;
 
     public AutoCrudViews() {
 
@@ -67,7 +68,7 @@ public class AutoCrudViews extends Window {
         Set<EntityType<?>> entities = metamodel.getEntities();
         for (EntityType<?> entityType : entities) {
             Class<?> javaType = entityType.getJavaType();
-            view.SetUp(javaType);
+            BasicCrudView view = new BasicCrudView(javaType, ep);
             navTree.addItem(view);
             navTree.setItemCaption(view, view.getCaption());
             navTree.setChildrenAllowed(view, false);
