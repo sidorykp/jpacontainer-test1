@@ -150,6 +150,7 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
         //container.setContainsIdFiresItemSetChangeIfNotFound(true);
         //container.removeContainerProperty("version");
 		table = new Table(null, container);
+        table.setCacheRate(0);
 	}
 
 	protected JPAContainer<T> getContainer() {

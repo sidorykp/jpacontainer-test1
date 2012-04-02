@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +18,7 @@ import javax.persistence.PersistenceContext;
  */
 public class TransactionalEntityProvider<T> extends MutableLocalEntityProvider<T> {
 
-    @PersistenceContext
+    @PersistenceContext(type= PersistenceContextType.EXTENDED)
     private EntityManager em;
 
     public TransactionalEntityProvider(Class<T> entityClass) {

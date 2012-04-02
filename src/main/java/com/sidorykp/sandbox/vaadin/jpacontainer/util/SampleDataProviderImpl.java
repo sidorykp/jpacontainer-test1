@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  */
 @Component
 public class SampleDataProviderImpl implements SampleDataProvider {
-    @PersistenceContext(unitName = "com.sidorykp.sandbox.vaadin.jpacontainer")
+    @PersistenceContext
     protected EntityManager em;
 
     @Override
@@ -24,9 +24,10 @@ public class SampleDataProviderImpl implements SampleDataProvider {
     public void prepareSampleData() {
         long size = (Long) em.createQuery("SELECT COUNT(p) FROM Person p").getSingleResult();
         if (size == 0) {
+            for (int i = 1; i <= 10; ++ i) {
             // create two Person objects as test data
             Person boss = new Person();
-            boss.setFirstName("John");
+            boss.setFirstName("John " + i);
             boss.setLastName("Bigboss");
             boss.setCity("Turku");
             boss.setPhoneNumber("+358 02 555 221");
@@ -35,7 +36,7 @@ public class SampleDataProviderImpl implements SampleDataProvider {
             em.persist(boss);
 
             Person p = new Person();
-            p.setFirstName("Marc");
+            p.setFirstName("Marc " + i);
             p.setLastName("Hardworker");
             p.setCity("Turku");
             p.setPhoneNumber("+358 02 555 222");
@@ -43,6 +44,7 @@ public class SampleDataProviderImpl implements SampleDataProvider {
             p.setStreet("Ruukinkatu 2-4");
             p.setBoss(boss);
             em.persist(p);
+            }
         }
     }
 }
