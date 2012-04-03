@@ -7,10 +7,17 @@
 	<persistence-unit name="com.sidorykp.sandbox.vaadin.jpacontainer" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person</class>
+        <class>com.sidorykp.sandbox.vaadin.jpacontainer.domain.PersonCached</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
+            <property name="net.sf.ehcache.configurationResourceName" value="META-INF/ehcache_spring.xml"/>
+            <property name="hibernate.cache.use_second_level_cache" value="true" />
+            <property name="hibernate.cache.use_query_cache" value="true" />
+            <property name="hibernate.generate_statistics" value="true" />
+            <property name="hibernate.cache.use_structured_entries" value="true" />
 		</properties>
 	</persistence-unit>
 

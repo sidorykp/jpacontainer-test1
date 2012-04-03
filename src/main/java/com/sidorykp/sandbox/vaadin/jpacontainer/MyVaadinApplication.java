@@ -2,6 +2,7 @@ package com.sidorykp.sandbox.vaadin.jpacontainer;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.ui.AutoCrudViews;
 
+import com.sidorykp.sandbox.vaadin.jpacontainer.util.ApplicationContextProvider;
 import com.sidorykp.sandbox.vaadin.jpacontainer.util.SampleDataProvider;
 import com.vaadin.Application;
 import org.springframework.beans.factory.annotation.Autowired;

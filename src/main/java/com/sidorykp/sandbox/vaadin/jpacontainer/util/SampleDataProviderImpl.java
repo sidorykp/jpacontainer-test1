@@ -1,6 +1,7 @@
 package com.sidorykp.sandbox.vaadin.jpacontainer.util;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person;
+import com.sidorykp.sandbox.vaadin.jpacontainer.domain.PersonCached;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,31 @@ public class SampleDataProviderImpl implements SampleDataProvider {
             p.setStreet("Ruukinkatu 2-4");
             p.setBoss(boss);
             em.persist(p);
+            }
+        }
+
+        size = (Long) em.createQuery("SELECT COUNT(p) FROM PersonCached p").getSingleResult();
+        if (size == 0) {
+            for (int i = 1; i <= 10; ++ i) {
+                // create two Person objects as test data
+                PersonCached boss = new PersonCached();
+                boss.setFirstName("John Cached " + i);
+                boss.setLastName("Bigboss");
+                boss.setCity("Turku");
+                boss.setPhoneNumber("+358 02 555 221");
+                boss.setZipCode("20200");
+                boss.setStreet("Ruukinkatu 2-4");
+                em.persist(boss);
+
+                PersonCached p = new PersonCached();
+                p.setFirstName("Marc Cached" + i);
+                p.setLastName("Hardworker");
+                p.setCity("Turku");
+                p.setPhoneNumber("+358 02 555 222");
+                p.setZipCode("20200");
+                p.setStreet("Ruukinkatu 2-4");
+                p.setBoss(boss);
+                em.persist(p);
             }
         }
     }

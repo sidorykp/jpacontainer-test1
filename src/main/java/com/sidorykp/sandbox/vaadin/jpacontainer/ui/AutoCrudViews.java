@@ -1,12 +1,14 @@
 package com.sidorykp.sandbox.vaadin.jpacontainer.ui;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person;
+import com.sidorykp.sandbox.vaadin.jpacontainer.domain.PersonCached;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.data.Property;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.Window;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +35,12 @@ public class AutoCrudViews extends Window {
     protected EntityManager em;
 
     @Autowired
-    protected EntityProvider<?> ep;
+    @Qualifier("person")
+    protected EntityProvider<?> epPerson;
+
+    @Autowired
+    @Qualifier("personCached")
+    protected EntityProvider<?> epPersonCached;
 
     public AutoCrudViews() {
 
@@ -68,11 +75,16 @@ public class AutoCrudViews extends Window {
         Set<EntityType<?>> entities = metamodel.getEntities();
         for (EntityType<?> entityType : entities) {
             Class<?> javaType = entityType.getJavaType();
-            BasicCrudView view = new BasicCrudView(javaType, ep);
+            BasicCrudView view = null;
+            if(javaType == Person.class) {
+                view = new BasicCrudView(javaType, epPerson);
+            } else if (javaType == PersonCached.class) {
+                view = new BasicCrudView(javaType, epPersonCached);
+            }
             navTree.addItem(view);
             navTree.setItemCaption(view, view.getCaption());
             navTree.setChildrenAllowed(view, false);
-            if(javaType == Person.class) {
+            if(javaType == Person.class || javaType == PersonCached.class) {
                 view.setVisibleTableProperties("firstName","lastName", "boss");
                 view.setVisibleFormProperties("firstName","lastName", "phoneNumber", "street", "city", "zipCode", "boss");
             }

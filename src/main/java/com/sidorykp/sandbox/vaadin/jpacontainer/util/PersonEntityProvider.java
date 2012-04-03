@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * Time: 9:52 PM
  * To change this template use File | Settings | File Templates.
  */
-@Repository
+@Repository("person")
 public class PersonEntityProvider extends TransactionalEntityProvider<Person> {
     protected PersonEntityProvider() {
         super(Person.class);
