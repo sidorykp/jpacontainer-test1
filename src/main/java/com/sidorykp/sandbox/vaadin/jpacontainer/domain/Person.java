@@ -1,10 +1,7 @@
 package com.sidorykp.sandbox.vaadin.jpacontainer.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Person {
@@ -12,15 +9,16 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Version
+    private int version;
 
     private String firstName;
     private String lastName;
-    private String street;
-    private String city;
-    private String zipCode;
     private String phoneNumber;
     @ManyToOne
     private Person boss;
+    @ElementCollection
+    private Set<Address> addresses;
 
     public Long getId() {
         return id;
@@ -28,6 +26,14 @@ public class Person {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public String getFirstName() {
@@ -46,30 +52,6 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -85,7 +67,15 @@ public class Person {
     public void setBoss(Person boss) {
         this.boss = boss;
     }
-    
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     @Override
     public String toString() {
         return firstName + " " + lastName;

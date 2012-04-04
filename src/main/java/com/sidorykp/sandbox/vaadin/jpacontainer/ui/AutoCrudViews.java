@@ -86,7 +86,7 @@ public class AutoCrudViews extends Window {
             navTree.setChildrenAllowed(view, false);
             if(javaType == Person.class || javaType == PersonCached.class) {
                 view.setVisibleTableProperties("firstName","lastName", "boss");
-                view.setVisibleFormProperties("firstName","lastName", "phoneNumber", "street", "city", "zipCode", "boss");
+                view.setVisibleFormProperties("firstName","lastName", "phoneNumber", "addresses", "boss");
             }
 
         }

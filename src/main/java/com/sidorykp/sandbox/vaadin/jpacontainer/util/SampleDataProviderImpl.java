@@ -30,19 +30,13 @@ public class SampleDataProviderImpl implements SampleDataProvider {
             Person boss = new Person();
             boss.setFirstName("John " + i);
             boss.setLastName("Bigboss");
-            boss.setCity("Turku");
             boss.setPhoneNumber("+358 02 555 221");
-            boss.setZipCode("20200");
-            boss.setStreet("Ruukinkatu 2-4");
             em.persist(boss);
 
             Person p = new Person();
             p.setFirstName("Marc " + i);
             p.setLastName("Hardworker");
-            p.setCity("Turku");
             p.setPhoneNumber("+358 02 555 222");
-            p.setZipCode("20200");
-            p.setStreet("Ruukinkatu 2-4");
             p.setBoss(boss);
             em.persist(p);
             }
@@ -55,19 +49,13 @@ public class SampleDataProviderImpl implements SampleDataProvider {
                 PersonCached boss = new PersonCached();
                 boss.setFirstName("John Cached " + i);
                 boss.setLastName("Bigboss");
-                boss.setCity("Turku");
                 boss.setPhoneNumber("+358 02 555 221");
-                boss.setZipCode("20200");
-                boss.setStreet("Ruukinkatu 2-4");
                 em.persist(boss);
 
                 PersonCached p = new PersonCached();
-                p.setFirstName("Marc Cached" + i);
+                p.setFirstName("Marc Cached " + i);
                 p.setLastName("Hardworker");
-                p.setCity("Turku");
                 p.setPhoneNumber("+358 02 555 222");
-                p.setZipCode("20200");
-                p.setStreet("Ruukinkatu 2-4");
                 p.setBoss(boss);
                 em.persist(p);
             }

@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.Set;
 
 @Entity
 @Cacheable
@@ -14,15 +15,18 @@ public class PersonCached {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Version
+    private int version;
 
     private String firstName;
     private String lastName;
-    private String street;
-    private String city;
-    private String zipCode;
     private String phoneNumber;
     @ManyToOne
     private PersonCached boss;
+    // NOTE EAGER fetch type was necessary,
+    // related entities cannot be lazily loaded with the CachingMutableLocalEntityProvider
+    @ElementCollection (fetch=FetchType.EAGER)
+    private Set<Address> addresses;
 
     public Long getId() {
         return id;
@@ -30,6 +34,14 @@ public class PersonCached {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public String getFirstName() {
@@ -48,30 +60,6 @@ public class PersonCached {
         this.lastName = lastName;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -86,6 +74,14 @@ public class PersonCached {
 
     public void setBoss(PersonCached boss) {
         this.boss = boss;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
     
     @Override
