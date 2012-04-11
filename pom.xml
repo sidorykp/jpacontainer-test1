@@ -8,6 +8,10 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>Vaadin JPAContainer Web Application</name>
 
+    <prerequisites>
+        <maven>2.2.0</maven>
+    </prerequisites>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>6.7.4</vaadin.version>
@@ -242,6 +246,10 @@
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
