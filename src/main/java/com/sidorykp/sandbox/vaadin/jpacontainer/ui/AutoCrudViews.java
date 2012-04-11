@@ -4,6 +4,8 @@ import com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person;
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.PersonCached;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.data.Property;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.Window;
@@ -53,10 +55,16 @@ public class AutoCrudViews extends Window {
         navTree.addListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                BasicCrudView cv = (BasicCrudView) event.getProperty()
-                        .getValue();
-                cv.refreshContainer();
-                horizontalSplitPanel.setSecondComponent(cv);
+                if (event.getProperty().getValue() instanceof  BasicCrudView) {
+                    BasicCrudView cv = (BasicCrudView) event.getProperty()
+                            .getValue();
+                    cv.refreshContainer();
+                    horizontalSplitPanel.setSecondComponent(cv);
+                } else {
+                    // we have a button
+                    WebApplicationContext context = (WebApplicationContext) getApplication().getContext();
+                    context.getHttpSession().invalidate();
+                }
             }
         });
         navTree.setSelectable(true);
@@ -90,6 +98,12 @@ public class AutoCrudViews extends Window {
             }
 
         }
+
+        Button button = new Button();
+        button.setData("SESSION_INV");
+        navTree.addItem(button);
+        navTree.setItemCaption(button, "Invalidate session");
+        navTree.setChildrenAllowed(button, false);
 
         // select first entity view
         navTree.setValue(navTree.getItemIds().iterator().next());
