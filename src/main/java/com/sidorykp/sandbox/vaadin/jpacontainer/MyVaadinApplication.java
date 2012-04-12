@@ -57,4 +57,15 @@ public class MyVaadinApplication extends Application implements HttpServletReque
         // print the error
         log.error("An uncaught exception occurred: ", event.getThrowable());
     }
+
+    // Override the default implementation
+    public static SystemMessages getSystemMessages() {
+        CustomizedSystemMessages messages =
+                new CustomizedSystemMessages();
+        messages.setCookiesDisabledCaption("Cookies are disabled");
+        messages.setCookiesDisabledMessage("Oh no, your browser does not allow cookies");
+        messages.setCookiesDisabledNotificationEnabled(true);
+        //messages.setCookiesDisabledURL("http://www.vaadin.com");
+        return messages;
+    }
 }
