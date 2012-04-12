@@ -73,6 +73,7 @@ public class AutoCrudViews extends Window {
                         WebApplicationContext context = (WebApplicationContext) getApplication().getContext();
                         context.getHttpSession().invalidate();
                     } else if (ERROR_BUTTON.equals(buttonData)) {
+                        // NOTE this exception is just "visible" on the server as com.vaadin.event.ListenerMethod$MethodException, it does not get to the client
                         throw new RuntimeException("Pressing the button has thrown an exception");
                     }
                 }
