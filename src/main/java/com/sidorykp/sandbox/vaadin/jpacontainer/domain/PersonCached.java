@@ -25,6 +25,7 @@ public class PersonCached {
     private PersonCached boss;
     // NOTE EAGER fetch type was necessary,
     // related entities cannot be lazily loaded with the CachingMutableLocalEntityProvider
+    // NOTE only add and delete operations synchronize changes with the database
     @ElementCollection (fetch=FetchType.EAGER)
     private Set<Address> addresses;
 
