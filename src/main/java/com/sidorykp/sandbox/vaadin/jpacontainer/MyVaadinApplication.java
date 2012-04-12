@@ -30,6 +30,7 @@ public class MyVaadinApplication extends Application implements HttpServletReque
 
 	@Override
 	public void init() {
+        log.debug("application init");
         sampleDataProvider.prepareSampleData();
 		setMainWindow(window);
 	}

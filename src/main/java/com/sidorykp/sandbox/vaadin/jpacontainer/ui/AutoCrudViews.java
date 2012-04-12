@@ -44,12 +44,19 @@ public class AutoCrudViews extends Window {
     @Qualifier("personCached")
     protected EntityProvider<?> epPersonCached;
 
-    public AutoCrudViews() {
+    public static final String SESSION_INV = "SESSION_INV";
 
+    public static final String ERROR_BUTTON = "ERROR_BUTTON";
+
+    public static int instanceCount = 0;
+
+    public AutoCrudViews() {
+        instanceCount ++;
     }
 
     @PostConstruct
     public void SetUp() {
+        this.setCaption("Main Window #" + instanceCount);
         final HorizontalSplitPanel horizontalSplitPanel = new HorizontalSplitPanel();
         Tree navTree = new Tree();
         navTree.addListener(new Property.ValueChangeListener() {
@@ -60,10 +67,14 @@ public class AutoCrudViews extends Window {
                             .getValue();
                     cv.refreshContainer();
                     horizontalSplitPanel.setSecondComponent(cv);
-                } else {
-                    // we have a button
-                    WebApplicationContext context = (WebApplicationContext) getApplication().getContext();
-                    context.getHttpSession().invalidate();
+                } else if (event.getProperty().getValue() instanceof  Button) {
+                    String buttonData = (String) ((Button) event.getProperty().getValue()).getData();
+                    if (SESSION_INV.equals(buttonData)) {
+                        WebApplicationContext context = (WebApplicationContext) getApplication().getContext();
+                        context.getHttpSession().invalidate();
+                    } else if (ERROR_BUTTON.equals(buttonData)) {
+                        throw new RuntimeException("Pressing the button has thrown an exception");
+                    }
                 }
             }
         });
@@ -100,9 +111,15 @@ public class AutoCrudViews extends Window {
         }
 
         Button button = new Button();
-        button.setData("SESSION_INV");
+        button.setData(SESSION_INV);
         navTree.addItem(button);
         navTree.setItemCaption(button, "Invalidate session");
+        navTree.setChildrenAllowed(button, false);
+
+        button = new Button();
+        button.setData(ERROR_BUTTON);
+        navTree.addItem(button);
+        navTree.setItemCaption(button, "Throw exception");
         navTree.setChildrenAllowed(button, false);
 
         // select first entity view
