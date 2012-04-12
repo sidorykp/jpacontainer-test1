@@ -35,6 +35,7 @@ public class MyVaadinApplication extends Application implements HttpServletReque
         log.debug("application init");
         sampleDataProvider.prepareSampleData();
 		setMainWindow(window);
+        setTheme("jpacontainer-test1theme");
 	}
 
     @Override
