@@ -76,6 +76,9 @@ public class AutoCrudViews extends Window {
                         // NOTE this exception is just "visible" on the server as com.vaadin.event.ListenerMethod$MethodException, it does not get to the client
                         throw new RuntimeException("Pressing the button has thrown an exception");
                     }
+                } else if (event.getProperty().getValue() instanceof  VisuallyDesignedLayout) {
+                	VisuallyDesignedLayout vdl = (VisuallyDesignedLayout) event.getProperty().getValue();
+                	horizontalSplitPanel.setSecondComponent(vdl);
                 }
             }
         });
@@ -122,6 +125,11 @@ public class AutoCrudViews extends Window {
         navTree.addItem(button);
         navTree.setItemCaption(button, "Throw exception");
         navTree.setChildrenAllowed(button, false);
+        
+        VisuallyDesignedLayout vdl = new VisuallyDesignedLayout();
+        navTree.addItem(vdl);
+        navTree.setItemCaption(vdl, "Visually designed");
+        navTree.setChildrenAllowed(vdl, false);
 
         // select first entity view
         navTree.setValue(navTree.getItemIds().iterator().next());
