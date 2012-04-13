@@ -8,6 +8,7 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person</class>
         <class>com.sidorykp.sandbox.vaadin.jpacontainer.domain.PersonCached</class>
+        <class>com.sidorykp.sandbox.vaadin.jpacontainer.domain.Address</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
