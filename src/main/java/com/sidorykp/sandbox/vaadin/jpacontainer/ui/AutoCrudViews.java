@@ -103,6 +103,8 @@ public class AutoCrudViews extends Window {
                 view = new BasicCrudView(javaType, epPerson);
             } else if (javaType == PersonCached.class) {
                 view = new BasicCrudView(javaType, epPersonCached);
+            } else {
+                continue;
             }
             navTree.addItem(view);
             navTree.setItemCaption(view, view.getCaption());
