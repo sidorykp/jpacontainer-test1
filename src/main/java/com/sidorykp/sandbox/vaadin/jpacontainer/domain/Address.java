@@ -14,6 +14,7 @@ import javax.persistence.Version;
 public class Address {
     // TODO there is no ID in this class. As a result, when a new Address is created from GUI where some of the fields are NULL
     // then duplicate Address records are created (Hibernate uses such statements that result in duplicate addresses
+    // there is no problem when EclipseLink is used
     private String street;
     private String city;
     private String zipCode;
