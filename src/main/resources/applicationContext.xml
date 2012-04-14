@@ -48,4 +48,6 @@
         <property name="configLocation"  value="classpath:/META-INF/ehcache_spring.xml"/>
         <property name="shared" value="true"/>
     </bean>
+
+    <bean id="emHelper" class="com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper"/>
 </beans>

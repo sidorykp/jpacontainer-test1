@@ -4,6 +4,7 @@ import com.sidorykp.sandbox.vaadin.jpacontainer.ui.AutoCrudViews;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.util.SampleDataProvider;
 import com.vaadin.Application;
+import com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper;
 import com.vaadin.terminal.Terminal;
 import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
@@ -30,6 +31,9 @@ public class MyVaadinApplication extends Application implements HttpServletReque
 
     protected static final Logger log = LoggerFactory.getLogger(MyVaadinApplication.class);
 
+    @Autowired
+    protected EntityManagerPerRequestHelper emHelper;
+
 	@Override
 	public void init() {
         log.debug("application init");
@@ -42,11 +46,18 @@ public class MyVaadinApplication extends Application implements HttpServletReque
     public void onRequestStart(HttpServletRequest request, HttpServletResponse response) {
         WebApplicationContext context = (WebApplicationContext) getContext();
         log.debug("context: " + ((context == null) ? "null" : context.hashCode()));
+        if (emHelper != null) {
+            // NOTE this REALLY works
+            emHelper.requestStart();
+        }
     }
 
     @Override
     public void onRequestEnd(HttpServletRequest request, HttpServletResponse response) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (emHelper != null) {
+            // NOTE this REALLY works
+            emHelper.requestEnd();
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.sidorykp.sandbox.vaadin.jpacontainer.ui;
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person;
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.PersonCached;
 import com.vaadin.addon.jpacontainer.EntityProvider;
+import com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper;
 import com.vaadin.data.Property;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button;
@@ -43,6 +44,9 @@ public class AutoCrudViews extends Window {
     @Autowired
     @Qualifier("personCached")
     protected EntityProvider<?> epPersonCached;
+
+    @Autowired
+    protected EntityManagerPerRequestHelper emHelper;
 
     public static final String SESSION_INV = "SESSION_INV";
 
@@ -100,9 +104,9 @@ public class AutoCrudViews extends Window {
             Class<?> javaType = entityType.getJavaType();
             BasicCrudView view = null;
             if(javaType == Person.class) {
-                view = new BasicCrudView(javaType, epPerson);
+                view = new BasicCrudView(javaType, epPerson, emHelper);
             } else if (javaType == PersonCached.class) {
-                view = new BasicCrudView(javaType, epPersonCached);
+                view = new BasicCrudView(javaType, epPersonCached, emHelper);
             } else {
                 continue;
             }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
+import com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -44,10 +45,12 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
 	private Button addButton;
 	private Button deleteButton;
 	private Panel panel;
+    protected EntityManagerPerRequestHelper emHelper;
 
-	public BasicCrudView(Class<T> entityClass, EntityProvider<T> ep) {
+	public BasicCrudView(Class<T> entityClass, EntityProvider<T> ep, EntityManagerPerRequestHelper emHelper) {
 		this.entityClass = entityClass;
         this.ep = ep;
+        this.emHelper = emHelper;
 		setSizeFull();
 		initContainer();
 		initFieldFactory();
@@ -56,6 +59,7 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
 
 	protected void initFieldFactory() {
 		fieldFactory = new FieldFactory();
+        fieldFactory.setEntityManagerPerRequestHelper(emHelper);
 	}
 
 	protected FieldFactory getFieldFactory() {
@@ -147,8 +151,10 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
 	protected void initContainer() {
         container = new JPAContainer<T>(entityClass);
         container.setEntityProvider(ep);
-        //container.setContainsIdFiresItemSetChangeIfNotFound(true);
-        //container.removeContainerProperty("version");
+        // NOTE should be used when multiple users use the application
+        container.setContainsIdFiresItemSetChangeIfNotFound(true);
+        container.removeContainerProperty("version");
+        emHelper.addContainer(container);
 		table = new Table(null, container);
         table.setCacheRate(0);
 	}
