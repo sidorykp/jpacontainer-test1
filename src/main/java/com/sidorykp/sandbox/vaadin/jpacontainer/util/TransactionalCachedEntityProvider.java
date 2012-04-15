@@ -1,6 +1,7 @@
 package com.sidorykp.sandbox.vaadin.jpacontainer.util;
 
 import com.vaadin.addon.jpacontainer.provider.CachingMutableLocalEntityProvider;
+import com.vaadin.addon.jpacontainer.util.HibernateLazyLoadingDelegate;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -25,7 +26,8 @@ public class TransactionalCachedEntityProvider<T> extends CachingMutableLocalEnt
     @PostConstruct
     public void init() {
         setEntityManager(em);
-        setEntitiesDetached(false);
+        // NOTE it REALLY works
+        setLazyLoadingDelegate(new HibernateLazyLoadingDelegate());
         setCacheEnabled(true);
         setEntityCacheMaxSize(10000);
     }

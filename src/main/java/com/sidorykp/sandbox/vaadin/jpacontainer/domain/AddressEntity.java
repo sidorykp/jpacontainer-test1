@@ -20,6 +20,8 @@ public class AddressEntity {
     private String street;
     private String city;
     private String zipCode;
+    @ManyToOne
+    private Person person;
 
     public Long getId() {
         return id;
@@ -35,6 +37,14 @@ public class AddressEntity {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public String getStreet() {

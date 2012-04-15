@@ -1,6 +1,7 @@
 package com.sidorykp.sandbox.vaadin.jpacontainer.util;
 
 import com.vaadin.addon.jpacontainer.provider.MutableLocalEntityProvider;
+import com.vaadin.addon.jpacontainer.util.HibernateLazyLoadingDelegate;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -25,7 +26,7 @@ public class TransactionalEntityProvider<T> extends MutableLocalEntityProvider<T
     @PostConstruct
     public void init() {
         setEntityManager(em);
-        // NOTE HibernateLazyLoadingDelegate does not help so the line below is necessary
-        setEntitiesDetached(false);
+        // NOTE it REALLY works
+        setLazyLoadingDelegate(new HibernateLazyLoadingDelegate());
     }
 }

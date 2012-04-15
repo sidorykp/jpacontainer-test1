@@ -2,6 +2,7 @@ package com.sidorykp.sandbox.vaadin.jpacontainer.ui;
 
 import java.util.Arrays;
 
+import com.sidorykp.sandbox.vaadin.jpacontainer.domain.AddressEntity;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
@@ -58,8 +59,8 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
 	}
 
 	protected void initFieldFactory() {
-		fieldFactory = new FieldFactory();
-        fieldFactory.setEntityManagerPerRequestHelper(emHelper);
+		fieldFactory = new FieldFactory(emHelper);
+        fieldFactory.setVisibleProperties(AddressEntity.class, "street", "zipCode", "city");
 	}
 
 	protected FieldFactory getFieldFactory() {
@@ -156,7 +157,7 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
         container.removeContainerProperty("version");
         emHelper.addContainer(container);
 		table = new Table(null, container);
-        table.setCacheRate(0);
+        //table.setCacheRate(0);
 	}
 
 	protected JPAContainer<T> getContainer() {

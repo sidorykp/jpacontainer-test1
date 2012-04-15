@@ -17,8 +17,10 @@ public class Person {
     private String phoneNumber;
     @ManyToOne
     private Person boss;
-    @ElementCollection
-    private Set<Address> addresses;
+    // NOTE cascade=CascadeType.ALL allowed to add AddressEntity entities in a MasterDetailEditor
+    // TODO the MasterDetailEditor does not handle the modification and the removal of AddressEntity entities
+    @OneToMany(mappedBy = "person", cascade=CascadeType.ALL, orphanRemoval=true)
+    private Set<AddressEntity> addresses;
 
     public Long getId() {
         return id;
@@ -68,11 +70,11 @@ public class Person {
         this.boss = boss;
     }
 
-    public Set<Address> getAddresses() {
+    public Set<AddressEntity> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Set<Address> addresses) {
+    public void setAddresses(Set<AddressEntity> addresses) {
         this.addresses = addresses;
     }
 
