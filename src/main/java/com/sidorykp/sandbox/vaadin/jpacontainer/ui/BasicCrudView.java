@@ -3,6 +3,7 @@ package com.sidorykp.sandbox.vaadin.jpacontainer.ui;
 import java.util.Arrays;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.AddressEntity;
+import com.sidorykp.sandbox.vaadin.jpacontainer.domain.AddressEntityCached;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
@@ -61,6 +62,7 @@ public class BasicCrudView<T> extends AbsoluteLayout implements
 	protected void initFieldFactory() {
 		fieldFactory = new FieldFactory(emHelper);
         fieldFactory.setVisibleProperties(AddressEntity.class, "street", "zipCode", "city");
+        fieldFactory.setVisibleProperties(AddressEntityCached.class, "street", "zipCode", "city");
 	}
 
 	protected FieldFactory getFieldFactory() {
