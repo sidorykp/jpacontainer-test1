@@ -14,7 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>6.7.4</vaadin.version>
+		<vaadin.version>6.7.7</vaadin.version>
 		<jpacontainer.version>2.1.0</jpacontainer.version>
 		<gwt.version>2.4.0</gwt.version>
 		<gwt.plugin.version>2.3.0-1</gwt.plugin.version>
