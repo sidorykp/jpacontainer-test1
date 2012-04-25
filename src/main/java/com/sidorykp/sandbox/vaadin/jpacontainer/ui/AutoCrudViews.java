@@ -48,7 +48,7 @@ public class AutoCrudViews extends Window {
     @Autowired
     protected EntityManagerPerRequestHelper emHelper;
 
-    public static final String SESSION_INV = "SESSION_INV";
+    public static final String APP_CLOSE = "APP_CLOSE";
 
     public static final String ERROR_BUTTON = "ERROR_BUTTON";
 
@@ -73,9 +73,8 @@ public class AutoCrudViews extends Window {
                     horizontalSplitPanel.setSecondComponent(cv);
                 } else if (event.getProperty().getValue() instanceof  Button) {
                     String buttonData = (String) ((Button) event.getProperty().getValue()).getData();
-                    if (SESSION_INV.equals(buttonData)) {
-                        WebApplicationContext context = (WebApplicationContext) getApplication().getContext();
-                        context.getHttpSession().invalidate();
+                    if (APP_CLOSE.equals(buttonData)) {
+                        getApplication().close();
                     } else if (ERROR_BUTTON.equals(buttonData)) {
                         // NOTE this exception is just "visible" on the server as com.vaadin.event.ListenerMethod$MethodException, it does not get to the client
                         throw new RuntimeException("Pressing the button has thrown an exception");
@@ -121,9 +120,9 @@ public class AutoCrudViews extends Window {
         }
 
         Button button = new Button();
-        button.setData(SESSION_INV);
+        button.setData(APP_CLOSE);
         navTree.addItem(button);
-        navTree.setItemCaption(button, "Invalidate session");
+        navTree.setItemCaption(button, "Close application");
         navTree.setChildrenAllowed(button, false);
 
         button = new Button();
