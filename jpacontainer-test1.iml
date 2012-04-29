@@ -20,6 +20,9 @@
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
       </configuration>
+      <facet type="Vaadin" name="Vaadin Application">
+        <configuration vaadinUsedWebRootPathUrl="file://$MODULE_DIR$/src/main/webapp" vaadinGWTLocationPath="" vaadinVMOptions="-Xss8M -Xmx512M -XX:MaxPermSize=512M" vaadinJavaScriptStyle="Detailed" vaadinCompilerThreads="2" />
+      </facet>
     </facet>
     <facet type="jpa" name="JPA">
       <configuration>
@@ -48,7 +51,7 @@
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: com.vaadin.addon:jpacontainer-addon-agpl-3.0:2.1.0" level="project" />
-    <orderEntry type="library" name="Maven: com.vaadin:vaadin:6.7.4" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin:6.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.vaadin.addons:customfield:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin.addon:beanvalidation-addon:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
