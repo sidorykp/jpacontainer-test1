@@ -14,12 +14,12 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>6.7.7</vaadin.version>
+		<vaadin.version>6.7.8</vaadin.version>
 		<jpacontainer.version>2.1.0</jpacontainer.version>
 		<gwt.version>2.4.0</gwt.version>
 		<gwt.plugin.version>2.3.0-1</gwt.plugin.version>
         <!-- PS we use hibernate instead of eclipselink-->
-        <hibernate.version>4.1.2</hibernate.version>
+        <hibernate.version>4.1.3.Final</hibernate.version>
         <spring.version>3.1.1.RELEASE</spring.version>
         <aspectj.version>1.6.12</aspectj.version>
         <aspectj-maven-plugin.version>1.4</aspectj-maven-plugin.version>
@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
+			<version>4.3.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -155,7 +155,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.3</version>
         </dependency>
 	</dependencies>
 
