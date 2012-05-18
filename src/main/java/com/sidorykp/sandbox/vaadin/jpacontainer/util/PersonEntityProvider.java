@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
  * To change this template use File | Settings | File Templates.
  */
 @Repository("person")
-@Scope("session")
 public class PersonEntityProvider extends TransactionalEntityProvider<Person> {
     protected PersonEntityProvider() {
         super(Person.class);

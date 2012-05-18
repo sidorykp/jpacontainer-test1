@@ -48,6 +48,8 @@ public class AutoCrudViews extends Window {
     @Autowired
     protected EntityManagerPerRequestHelper emHelper;
 
+    protected Tree navTree;
+
     public static final String APP_CLOSE = "APP_CLOSE";
 
     public static final String ERROR_BUTTON = "ERROR_BUTTON";
@@ -62,7 +64,7 @@ public class AutoCrudViews extends Window {
     public void SetUp() {
         this.setCaption("Main Window #" + instanceCount);
         final HorizontalSplitPanel horizontalSplitPanel = new HorizontalSplitPanel();
-        Tree navTree = new Tree();
+        navTree = new Tree();
         navTree.addListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
@@ -98,7 +100,9 @@ public class AutoCrudViews extends Window {
                 HorizontalSplitPanel.UNITS_PIXELS);
         horizontalSplitPanel.addComponent(navTree);
         setContent(horizontalSplitPanel);
+    }
 
+    public void prepareGui() {
         // add a basic crud view for all entities known by the JPA
         // implementation, most often this is not desired and developers
         // should just list those entities they want to have editors for

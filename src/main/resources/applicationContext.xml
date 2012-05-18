@@ -49,5 +49,5 @@
         <property name="shared" value="true"/>
     </bean>
 
-    <bean id="emHelper" class="com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper" scope="session"/>
+    <bean id="emHelper" class="com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper"/>
 </beans>

@@ -5,6 +5,7 @@ import com.sidorykp.sandbox.vaadin.jpacontainer.ui.AutoCrudViews;
 import com.sidorykp.sandbox.vaadin.jpacontainer.util.SampleDataProvider;
 import com.vaadin.Application;
 import com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper;
+import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.Terminal;
 import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @SuppressWarnings("serial")
 @Configurable
-public class MyVaadinApplication extends Application implements HttpServletRequestListener {
+public class MyVaadinApplication extends Application implements HttpServletRequestListener, ApplicationContext.TransactionListener {
     @Autowired
     protected AutoCrudViews window;
 
@@ -37,7 +38,9 @@ public class MyVaadinApplication extends Application implements HttpServletReque
 	@Override
 	public void init() {
         log.debug("application init");
+        getContext().addTransactionListener(this);
         sampleDataProvider.prepareSampleData();
+        window.prepareGui();
 		setMainWindow(window);
         setTheme("jpacontainer-test1theme");
 	}
@@ -47,6 +50,7 @@ public class MyVaadinApplication extends Application implements HttpServletReque
         WebApplicationContext context = (WebApplicationContext) getContext();
         log.debug("context: " + ((context == null) ? "null" : context.hashCode()));
         if (emHelper != null) {
+            log.debug("requestStart");
             // NOTE this REALLY works
             emHelper.requestStart();
         }
@@ -55,9 +59,19 @@ public class MyVaadinApplication extends Application implements HttpServletReque
     @Override
     public void onRequestEnd(HttpServletRequest request, HttpServletResponse response) {
         if (emHelper != null) {
+            log.debug("requestEnd");
             // NOTE this REALLY works
             emHelper.requestEnd();
         }
+    }
+    @Override
+    public void transactionStart(Application application, Object o) {
+        log.debug("transactionStart");
+    }
+
+    @Override
+    public void transactionEnd(Application application, Object o) {
+        log.debug("transactionEnd");
     }
 
     @Override
