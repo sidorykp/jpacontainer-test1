@@ -1,0 +1,7 @@
+Currently the following scenario is handled improperly:
+1. User A loads a record
+2. User B loads the same record
+3. User A modifies the record
+4. User B modifies the record
+
+The application should detect in step 4. that it modifies stale data. It does not do it. This is wrong.
