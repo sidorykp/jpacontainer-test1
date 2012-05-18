@@ -1,6 +1,7 @@
 package com.sidorykp.sandbox.vaadin.jpacontainer.util;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
  * To change this template use File | Settings | File Templates.
  */
 @Repository("person")
+@Scope("session")
 public class PersonEntityProvider extends TransactionalEntityProvider<Person> {
     protected PersonEntityProvider() {
         super(Person.class);

@@ -69,7 +69,12 @@ public class AutoCrudViews extends Window {
                 if (event.getProperty().getValue() instanceof  BasicCrudView) {
                     BasicCrudView cv = (BasicCrudView) event.getProperty()
                             .getValue();
-                    cv.refreshContainer();
+                    try {
+                        cv.refreshContainer();
+                    } catch (Exception e) {
+                        // NOTE it occurs when a second user starts his application
+                        e.printStackTrace();
+                    }
                     horizontalSplitPanel.setSecondComponent(cv);
                 } else if (event.getProperty().getValue() instanceof  Button) {
                     String buttonData = (String) ((Button) event.getProperty().getValue()).getData();
