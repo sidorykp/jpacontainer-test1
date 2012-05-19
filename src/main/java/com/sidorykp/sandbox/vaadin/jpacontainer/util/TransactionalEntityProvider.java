@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * To change this template use File | Settings | File Templates.
  */
 public class TransactionalEntityProvider<T> extends MutableLocalEntityProvider<T> {
-
+    // NOTE type=PersistenceContextType.EXTENDED can also be used, it makes no difference
     @PersistenceContext
     private EntityManager em;
 
