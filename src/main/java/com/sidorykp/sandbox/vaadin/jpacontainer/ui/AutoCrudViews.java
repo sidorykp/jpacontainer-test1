@@ -2,14 +2,17 @@ package com.sidorykp.sandbox.vaadin.jpacontainer.ui;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.Person;
 import com.sidorykp.sandbox.vaadin.jpacontainer.domain.PersonCached;
+import com.sidorykp.sandbox.vaadin.jpacontainer.util.ErrorCode;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper;
 import com.vaadin.data.Property;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.Window;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -56,6 +59,8 @@ public class AutoCrudViews extends Window {
 
     public static int instanceCount = 0;
 
+    protected static final Logger log = LoggerFactory.getLogger(AutoCrudViews.class);
+
     public AutoCrudViews() {
         instanceCount ++;
     }
@@ -75,7 +80,7 @@ public class AutoCrudViews extends Window {
                         cv.refreshContainer();
                     } catch (Exception e) {
                         // NOTE it occurs when a second user starts his application
-                        e.printStackTrace();
+                        log.warn(ErrorCode.CONTAINER_REFRESH.toString(), e);
                     }
                     horizontalSplitPanel.setSecondComponent(cv);
                 } else if (event.getProperty().getValue() instanceof  Button) {

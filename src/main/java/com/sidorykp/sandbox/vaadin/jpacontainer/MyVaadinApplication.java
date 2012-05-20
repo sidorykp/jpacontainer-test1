@@ -2,6 +2,7 @@ package com.sidorykp.sandbox.vaadin.jpacontainer;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.ui.AutoCrudViews;
 
+import com.sidorykp.sandbox.vaadin.jpacontainer.util.ErrorCode;
 import com.sidorykp.sandbox.vaadin.jpacontainer.util.SampleDataProvider;
 import com.vaadin.Application;
 import com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper;
@@ -81,7 +82,7 @@ public class MyVaadinApplication extends Application implements HttpServletReque
                 "contact the administrator!", Window.Notification.TYPE_ERROR_MESSAGE);
 
         // print the error
-        log.error("An uncaught exception occurred: ", event.getThrowable());
+        log.error(ErrorCode.GENERAL_UNCAUGHT.toString(), event.getThrowable());
     }
 
     // Override the default implementation
