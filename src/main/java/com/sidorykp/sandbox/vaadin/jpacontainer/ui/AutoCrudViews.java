@@ -80,7 +80,7 @@ public class AutoCrudViews extends Window {
                         cv.refreshContainer();
                     } catch (Exception e) {
                         // NOTE it occurs when a second user starts his application
-                        log.warn(ErrorCode.CONTAINER_REFRESH.toString(), e);
+                        log.warn(ErrorCode.CONTAINER_REFRESH, e);
                     }
                     horizontalSplitPanel.setSecondComponent(cv);
                 } else if (event.getProperty().getValue() instanceof  Button) {

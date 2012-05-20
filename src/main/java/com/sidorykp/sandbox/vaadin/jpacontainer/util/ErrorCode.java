@@ -7,19 +7,7 @@ package com.sidorykp.sandbox.vaadin.jpacontainer.util;
  * Time: 11:55 PM
  * To change this template use File | Settings | File Templates.
  */
-public enum ErrorCode {
-    GENERAL_UNCAUGHT("1"),
-    CONTAINER_REFRESH ("1000");
-
-    private final String code;
-
-    ErrorCode(String code) {
-        this.code = code;
-    }
-
-
-    @Override
-    public String toString() {
-        return code;
-    }
+public interface ErrorCode {
+    public static final String GENERAL_UNCAUGHT = "1";
+    public static final String CONTAINER_REFRESH = "1000";
 }

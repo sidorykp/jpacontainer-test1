@@ -82,7 +82,7 @@ public class MyVaadinApplication extends Application implements HttpServletReque
                 "contact the administrator!", Window.Notification.TYPE_ERROR_MESSAGE);
 
         // print the error
-        log.error(ErrorCode.GENERAL_UNCAUGHT.toString(), event.getThrowable());
+        log.error(ErrorCode.GENERAL_UNCAUGHT, event.getThrowable());
     }
 
     // Override the default implementation
