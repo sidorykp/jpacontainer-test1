@@ -9,5 +9,6 @@ package com.sidorykp.sandbox.vaadin.jpacontainer.util;
  */
 public interface ErrorCode {
     public static final String GENERAL_UNCAUGHT = "1";
+    public static final String INIT = "2";
     public static final String CONTAINER_REFRESH = "1000";
 }

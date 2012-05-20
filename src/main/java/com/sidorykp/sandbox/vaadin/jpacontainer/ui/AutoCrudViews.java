@@ -61,6 +61,8 @@ public class AutoCrudViews extends Window {
 
     protected static final Logger log = LoggerFactory.getLogger(AutoCrudViews.class);
 
+    protected boolean inited = false;
+
     public AutoCrudViews() {
         instanceCount ++;
     }
@@ -76,11 +78,13 @@ public class AutoCrudViews extends Window {
                 if (event.getProperty().getValue() instanceof  BasicCrudView) {
                     BasicCrudView cv = (BasicCrudView) event.getProperty()
                             .getValue();
-                    try {
-                        cv.refreshContainer();
-                    } catch (Exception e) {
-                        // NOTE it occurs when a second user starts his application
-                        log.warn(ErrorCode.CONTAINER_REFRESH, e);
+                    if (inited) {
+                        try {
+                            cv.refreshContainer();
+                        } catch (Exception e) {
+                            // NOTE it occurs when a second user starts his application
+                            log.warn(ErrorCode.CONTAINER_REFRESH, e);
+                        }
                     }
                     horizontalSplitPanel.setSecondComponent(cv);
                 } else if (event.getProperty().getValue() instanceof  Button) {
@@ -108,49 +112,52 @@ public class AutoCrudViews extends Window {
     }
 
     public void prepareGui() {
-        // add a basic crud view for all entities known by the JPA
-        // implementation, most often this is not desired and developers
-        // should just list those entities they want to have editors for
-        Metamodel metamodel = em.getEntityManagerFactory().getMetamodel();
-        Set<EntityType<?>> entities = metamodel.getEntities();
-        for (EntityType<?> entityType : entities) {
-            Class<?> javaType = entityType.getJavaType();
-            BasicCrudView view = null;
-            if(javaType == Person.class) {
-                view = new BasicCrudView(javaType, epPerson, emHelper);
-            } else if (javaType == PersonCached.class) {
-                view = new BasicCrudView(javaType, epPersonCached, emHelper);
-            } else {
-                continue;
-            }
-            navTree.addItem(view);
-            navTree.setItemCaption(view, view.getCaption());
-            navTree.setChildrenAllowed(view, false);
-            if(javaType == Person.class || javaType == PersonCached.class) {
-                view.setVisibleTableProperties("firstName","lastName", "boss");
-                view.setVisibleFormProperties("firstName","lastName", "phoneNumber", "addresses", "boss");
+        if (! inited) {
+            // add a basic crud view for all entities known by the JPA
+            // implementation, most often this is not desired and developers
+            // should just list those entities they want to have editors for
+            Metamodel metamodel = em.getEntityManagerFactory().getMetamodel();
+            Set<EntityType<?>> entities = metamodel.getEntities();
+            for (EntityType<?> entityType : entities) {
+                Class<?> javaType = entityType.getJavaType();
+                BasicCrudView view = null;
+                if(javaType == Person.class) {
+                    view = new BasicCrudView(javaType, epPerson, emHelper);
+                } else if (javaType == PersonCached.class) {
+                    view = new BasicCrudView(javaType, epPersonCached, emHelper);
+                } else {
+                    continue;
+                }
+                navTree.addItem(view);
+                navTree.setItemCaption(view, view.getCaption());
+                navTree.setChildrenAllowed(view, false);
+                if(javaType == Person.class || javaType == PersonCached.class) {
+                    view.setVisibleTableProperties("firstName","lastName", "boss");
+                    view.setVisibleFormProperties("firstName","lastName", "phoneNumber", "addresses", "boss");
+                }
+
             }
 
+            Button button = new Button();
+            button.setData(APP_CLOSE);
+            navTree.addItem(button);
+            navTree.setItemCaption(button, "Close application");
+            navTree.setChildrenAllowed(button, false);
+
+            button = new Button();
+            button.setData(ERROR_BUTTON);
+            navTree.addItem(button);
+            navTree.setItemCaption(button, "Throw exception");
+            navTree.setChildrenAllowed(button, false);
+
+            VisuallyDesigned vd = new VisuallyDesigned();
+            navTree.addItem(vd);
+            navTree.setItemCaption(vd, "Visually designed");
+            navTree.setChildrenAllowed(vd, false);
+
+            // select first entity view
+            navTree.setValue(navTree.getItemIds().iterator().next());
+            inited = true;
         }
-
-        Button button = new Button();
-        button.setData(APP_CLOSE);
-        navTree.addItem(button);
-        navTree.setItemCaption(button, "Close application");
-        navTree.setChildrenAllowed(button, false);
-
-        button = new Button();
-        button.setData(ERROR_BUTTON);
-        navTree.addItem(button);
-        navTree.setItemCaption(button, "Throw exception");
-        navTree.setChildrenAllowed(button, false);
-        
-        VisuallyDesigned vd = new VisuallyDesigned();
-        navTree.addItem(vd);
-        navTree.setItemCaption(vd, "Visually designed");
-        navTree.setChildrenAllowed(vd, false);
-
-        // select first entity view
-        navTree.setValue(navTree.getItemIds().iterator().next());
     }
 }

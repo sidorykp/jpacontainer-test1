@@ -4,6 +4,7 @@ import com.sidorykp.sandbox.vaadin.jpacontainer.ui.AutoCrudViews;
 
 import com.sidorykp.sandbox.vaadin.jpacontainer.util.ErrorCode;
 import com.sidorykp.sandbox.vaadin.jpacontainer.util.SampleDataProvider;
+import com.sidorykp.sandbox.vaadin.jpacontainer.util.TransactionListener;
 import com.vaadin.Application;
 import com.vaadin.addon.jpacontainer.util.EntityManagerPerRequestHelper;
 import com.vaadin.service.ApplicationContext;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @SuppressWarnings("serial")
 @Configurable
-public class MyVaadinApplication extends Application implements HttpServletRequestListener, ApplicationContext.TransactionListener {
+public class MyVaadinApplication extends Application implements HttpServletRequestListener {
     @Autowired
     protected AutoCrudViews window;
 
@@ -36,43 +37,44 @@ public class MyVaadinApplication extends Application implements HttpServletReque
     @Autowired
     protected EntityManagerPerRequestHelper emHelper;
 
+    @Autowired
+    protected TransactionListener transactionListener;
+
 	@Override
 	public void init() {
-        log.debug("application init");
-        getContext().addTransactionListener(this);
-        sampleDataProvider.prepareSampleData();
-        window.prepareGui();
-		setMainWindow(window);
-        setTheme("jpacontainer-test1theme");
+        try {
+            log.debug("application init");
+            getContext().addTransactionListener(transactionListener);
+            sampleDataProvider.prepareSampleData();
+            window.prepareGui();
+            setMainWindow(window);
+            setTheme("jpacontainer-test1theme");
+        } catch (Exception e) {
+            log.error(ErrorCode.INIT, e);
+        }
 	}
+
+    // NOTE without this our transactionListener would be added multiple times (and would be used multiple times)
+    @Override
+    public void close() {
+        getContext().removeTransactionListener(transactionListener);
+        super.close();
+    }
 
     @Override
     public void onRequestStart(HttpServletRequest request, HttpServletResponse response) {
         WebApplicationContext context = (WebApplicationContext) getContext();
         log.debug("context: " + ((context == null) ? "null" : context.hashCode()));
-        if (emHelper != null) {
-            log.debug("requestStart");
-            // NOTE this REALLY works
-            emHelper.requestStart();
-        }
+        log.debug("requestStart");
+        // NOTE this REALLY works
+        emHelper.requestStart();
     }
 
     @Override
     public void onRequestEnd(HttpServletRequest request, HttpServletResponse response) {
-        if (emHelper != null) {
-            log.debug("requestEnd");
-            // NOTE this REALLY works
-            emHelper.requestEnd();
-        }
-    }
-    @Override
-    public void transactionStart(Application application, Object o) {
-        log.debug("transactionStart");
-    }
-
-    @Override
-    public void transactionEnd(Application application, Object o) {
-        log.debug("transactionEnd");
+        log.debug("requestEnd");
+        // NOTE this REALLY works
+        emHelper.requestEnd();
     }
 
     @Override
